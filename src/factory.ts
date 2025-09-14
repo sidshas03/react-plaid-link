@@ -4,6 +4,7 @@ import {
   PlaidHandlerSubmissionData,
   CommonPlaidLinkOptions,
 } from './types';
+import { applySandboxFix } from './sandbox-fix';
 
 export interface PlaidFactory {
   open: (() => void) | Function;
@@ -45,6 +46,9 @@ const createPlaidHandler = <T extends CommonPlaidLinkOptions<{}>>(
   if (typeof window === 'undefined' || !window.Plaid) {
     throw new Error('Plaid not loaded');
   }
+
+  // Apply sandbox fix for popup links
+  applySandboxFix();
 
   state.plaid = creator({
     ...config,

@@ -148,6 +148,47 @@ const App extends React.Component {
 }
 ```
 
+## Sandbox Banner Fix
+
+When using Plaid Link in sandbox mode, the sandbox banner at the bottom of the screen can overlap with and hide call-to-action buttons in the Plaid Link popup. This library automatically detects sandbox mode and applies CSS fixes to prevent this issue.
+
+### Automatic Detection
+
+The sandbox fix is automatically applied when:
+- Running on `localhost` or `127.0.0.1`
+- Hostname contains `sandbox`
+- `window.plaidSandboxMode` is set to `true`
+
+### How It Works
+
+The fix automatically injects CSS that:
+- Adds bottom margin to Plaid Link iframes to account for the sandbox banner
+- Ensures popups are positioned above the sandbox banner
+- Works with both popup and embedded Plaid Link implementations
+
+### Manual Control
+
+If you need manual control over the sandbox fix, you can import and use the utility functions:
+
+```tsx
+import { 
+  isSandboxMode, 
+  applySandboxFix, 
+  applyEmbeddedSandboxFix 
+} from 'react-plaid-link';
+
+// Check if currently in sandbox mode
+const inSandbox = isSandboxMode();
+
+// Manually apply fixes
+applySandboxFix(); // For popup links
+applyEmbeddedSandboxFix(); // For embedded links
+```
+
+### Example
+
+See [examples/sandbox-fix.tsx](examples/sandbox-fix.tsx) for a complete example demonstrating the sandbox banner fix.
+
 ## Typescript support
 
 TypeScript definitions for `react-plaid-link` are built into the npm package.

@@ -6,6 +6,7 @@ import {
   PlaidEmbeddedLinkPropTypes,
   PlaidLinkOptionsWithLinkToken,
 } from './types';
+import { applyEmbeddedSandboxFix, isSandboxMode } from './sandbox-fix';
 
 export const PlaidEmbeddedLink = (props: PlaidEmbeddedLinkPropTypes) => {
   const {
@@ -55,6 +56,9 @@ export const PlaidEmbeddedLink = (props: PlaidEmbeddedLinkPropTypes) => {
       return;
     }
 
+    // Apply sandbox fix for embedded links
+    applyEmbeddedSandboxFix();
+
     // The embedded Link interface doesn't use the `usePlaidLink` hook to manage
     // its Plaid Link instance because the embedded Link integration in link-initialize
     // maintains its own handler internally.
@@ -68,8 +72,13 @@ export const PlaidEmbeddedLink = (props: PlaidEmbeddedLinkPropTypes) => {
     }
   }, [loading, error, config, embeddedLinkTarget]);
 
+  // Combine className with sandbox fix class if in sandbox mode
+  const combinedClassName = isSandboxMode() 
+    ? `${className || ''} plaid-embedded-link`.trim()
+    : className;
+
   return (
-    <div style={style} className={className} ref={embeddedLinkTarget}></div>
+    <div style={style} className={combinedClassName} ref={embeddedLinkTarget}></div>
   );
 };
 

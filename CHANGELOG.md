@@ -1,5 +1,14 @@
 # Changelog
 
+## 4.2.0
+
+- **NEW**: Automatic sandbox banner overlap fix
+  - Automatically detects sandbox mode and applies CSS fixes to prevent sandbox banner from hiding Plaid Link CTAs
+  - Works with both popup and embedded Plaid Link implementations
+  - No configuration required - works automatically in sandbox environments
+  - Added utility functions for manual control: `isSandboxMode()`, `applySandboxFix()`, `applyEmbeddedSandboxFix()`
+  - Added example demonstrating the fix: `examples/sandbox-fix.tsx`
+
 ## 4.1.1 
 
 - Fix build issue from version 4.1.0
